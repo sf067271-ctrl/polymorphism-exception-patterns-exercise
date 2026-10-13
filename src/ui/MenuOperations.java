@@ -1,3 +1,17 @@
+package ui;
+
+import common.Messages;
+import delivery.DeliveryStrategy;
+import delivery.ExpressDelivery;
+import delivery.SameDayDelivery;
+import delivery.StandardDelivery;
+import model.Box;
+import model.Document;
+import model.Fragile;
+import model.Parcel;
+import model.ParcelStatus;
+import operations.ParcelOperations;
+
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -10,39 +24,50 @@ public class MenuOperations {
     }
 
     public void addParcel() {
-        System.out.println("\nSelect Parcel Type: ");
-        System.out.println("[1] Document");
-        System.out.println("[2] Box");
-        System.out.println("[3] Fragile");
+        Messages.printParcelTypeMenu();
 
         String type = "";
         boolean validType = false;
 
         while (!validType) {
-            System.out.print("Enter choice: ");
+            System.out.print(Messages.CHOICE_PROMPT);
             type = scanner.nextLine().strip();
 
             if (type.equals("1") || type.equals("2") || type.equals("3")) {
                 validType = true;
             } else if (type.matches("0[0-9]+")) {
-                System.out.println("Enter your choice without leading zeros.");
+                System.out.println(Messages.INVALID_CHOICE);
             } else {
-                System.out.println("Invalid choice. Please select 1 to 3.");
+                System.out.println(Messages.INVALID_CHOICE);
             }
         }
+
+        System.out.println(Messages.SEPARATOR);
+
+        if (type.equals("1")) {
+            System.out.println("Parcel Type Selected: Document");
+        } else if (type.equals("2")) {
+            System.out.println("Parcel Type Selected: Box");
+        } else {
+            System.out.println("Parcel Type Selected: Fragile");
+        }
+
+        System.out.println(Messages.SEPARATOR);
 
         String trackingNumber = "";
         boolean validTrackingNumber = false;
 
         while (!validTrackingNumber) {
-            System.out.print("Tracking Number: ");
+            System.out.print(Messages.TRACKING_NUMBER_PROMPT);
             trackingNumber = scanner.nextLine().strip();
 
             try {
                 if (!trackingNumber.matches("^ABC\\d{4}$")) {
-                    throw new IllegalArgumentException("Tracking number must be ABC followed by exactly four digits.");
+                    throw new IllegalArgumentException(Messages.INVALID_TRACKING_NUMBER);
                 }
+
                 manager.checkDuplicateTracking(trackingNumber);
+
                 validTrackingNumber = true;
             } catch (IllegalArgumentException e) {
                 System.out.println(e.getMessage());
@@ -54,10 +79,10 @@ public class MenuOperations {
         boolean validReceiver = false;
 
         while (!validReceiver) {
-            System.out.print("Receiver Name: ");
+            System.out.print(Messages.RECEIVER_NAME_PROMPT);
             receiverName = scanner.nextLine().strip();
             if (receiverName.isBlank()) {
-                System.out.println("Receiver name must not be empty.");
+                System.out.println(Messages.EMPTY_FIELD);
             } else {
                 validReceiver = true;
             }
@@ -74,17 +99,17 @@ public class MenuOperations {
         double weight = 0;
         boolean validWeight = false;
         while (!validWeight) {
-            System.out.print("Actual Weight (kg): ");
+            System.out.print(Messages.WEIGHT_PROMPT);
             try {
                 weight = Double.parseDouble(scanner.nextLine().strip());
                 if (!Double.isFinite(weight) || weight <= 0 || weight > maxWeight) {
                     System.out
-                            .println("Weight must be a finite number greater than 0 and at most " + maxWeight + " kg.");
+                            .println(Messages.weightLimit(maxWeight));
                 } else {
                     validWeight = true;
                 }
             } catch (NumberFormatException e) {
-                System.out.println("Please enter a valid decimal number.");
+                System.out.println(Messages.INVALID_NUMBER);
             }
         }
         Parcel parcel;
@@ -97,16 +122,16 @@ public class MenuOperations {
                 int pages = 0;
                 boolean validPages = false;
                 while (!validPages) {
-                    System.out.print("Number of Pages (1-100): ");
+                    System.out.print(Messages.PAGES_PROMPT);
                     try {
                         pages = Integer.parseInt(scanner.nextLine().strip());
                         if (pages < 1 || pages > 100) {
-                            System.out.println("Number of pages must be between 1 and 100.");
+                            System.out.println(Messages.INVALID_PAGES);
                         } else {
                             validPages = true;
                         }
                     } catch (NumberFormatException e) {
-                        System.out.println("Please enter a valid whole number.");
+                        System.out.println(Messages.INVALID_NUMBER);
                     }
                 }
                 parcel = new Document(trackingNumber, receiverName, weight, pages, standard);
@@ -119,32 +144,34 @@ public class MenuOperations {
                 for (int i = 0; i < dimensions.length; i++) {
                     boolean validDimension = false;
                     while (!validDimension) {
-                        System.out.print(dimensionNames[i] + " (cm): ");
+                        System.out.print(Messages.dimensionPrompt(dimensionNames[i]));
                         try {
                             dimensions[i] = Integer.parseInt(scanner.nextLine().strip());
                             if (dimensions[i] <= 0) {
-                                System.out.println("Dimensions must be greater than zero.");
+                                System.out.println(Messages.INVALID_DIMENSIONS);
                             } else {
                                 validDimension = true;
                             }
                         } catch (NumberFormatException e) {
-                            System.out.println("Please enter a valid whole number.");
+                            System.out.println(Messages.INVALID_NUMBER);
                         }
                     }
                 }
+
                 int length = dimensions[0];
                 int width = dimensions[1];
                 int height = dimensions[2];
+
                 switch (type) {
                     case "2" -> parcel = new Box(trackingNumber, receiverName, weight, length, width, height, standard);
                     case "3" -> {
                         String note = "";
                         boolean validNote = false;
                         while (!validNote) {
-                            System.out.print("Handling Note: ");
+                            System.out.print(Messages.HANDLING_NOTE_PROMPT);
                             note = scanner.nextLine().strip();
                             if (note.isBlank()) {
-                                System.out.println("Handling note must not be empty.");
+                                System.out.println(Messages.EMPTY_FIELD);
                             } else {
                                 validNote = true;
                             }
@@ -152,12 +179,13 @@ public class MenuOperations {
                         parcel = new Fragile(trackingNumber, receiverName, weight, length, width, height, note,
                                 standard);
                     }
-                    default -> throw new IllegalArgumentException("Invalid parcel type.");
+                    default -> throw new IllegalArgumentException(Messages.INVALID_CHOICE);
                 }
             }
-            default -> throw new IllegalArgumentException("Invalid parcel type.");
+            default -> throw new IllegalArgumentException(Messages.INVALID_CHOICE);
         }
         boolean validDeliveryService = false;
+
         while (!validDeliveryService) {
             DeliveryStrategy service = selectDeliveryService();
             try {
@@ -168,21 +196,21 @@ public class MenuOperations {
             }
         }
         manager.addParcel(parcel);
-        System.out.printf("Parcel added successfully! Delivery fee: Php %.2f%n", parcel.calculateDeliveryFee());
+        System.out.printf(Messages.PARCEL_ADDED, parcel.calculateDeliveryFee());
     }
 
     public void viewAllParcels() {
         ArrayList<Parcel> parcels = manager.getAllParcels();
 
         if (parcels.isEmpty()) {
-            System.out.println("No parcels available.");
+            System.out.println(Messages.NO_PARCELS);
             return;
         }
 
         int trackingWidth = "TRACKING".length();
         int typeWidth = "TYPE".length();
         int receiverWidth = "RECEIVER".length();
-        int weightWidth = "WEIGHT".length();
+        int weightWidth = "CHARGABLE WEIGHT".length();
         int serviceWidth = "SERVICE".length();
         int feeWidth = "FEE (Php)".length();
         int statusWidth = "STATUS".length();
@@ -204,11 +232,11 @@ public class MenuOperations {
                 + "s  %-" + statusWidth + "s%n";
 
         System.out.println();
-        System.out.printf(format, "TRACKING", "TYPE", "RECEIVER", "WEIGHT", "SERVICE", "FEE (Php)", "STATUS");
+        System.out.printf(format, "TRACKING", "TYPE", "RECEIVER", "CHARGABLE WEIGHT", "SERVICE", "FEE (Php)", "STATUS");
         for (Parcel parcel : parcels) {
             String status = parcel.getStatus() == ParcelStatus.PENDING ? "Pending" : "Delivered";
             System.out.printf(format, parcel.getTrackingNumber(), parcel.getParcelType(),
-                    parcel.getReceiverName(), String.format("%.2f", parcel.calculateChargeableWeight()),
+                    parcel.getReceiverName(), String.format("%.2fkg", parcel.calculateChargeableWeight()),
                     parcel.getDeliveryService().getServiceName(),
                     String.format("%.2f", parcel.calculateDeliveryFee()), status);
         }
@@ -217,7 +245,7 @@ public class MenuOperations {
     public void changeDeliveryService() {
 
         if (manager.getAllParcels().isEmpty()) {
-            System.out.println("No parcels available.");
+            System.out.println(Messages.NO_PARCELS);
             return;
         }
 
@@ -225,11 +253,11 @@ public class MenuOperations {
         boolean validTrackingNumber = false;
 
         while (!validTrackingNumber) {
-            System.out.print("Tracking Number: ");
+            System.out.print(Messages.TRACKING_NUMBER_PROMPT);
             trackingNumber = scanner.nextLine().strip();
 
             if (trackingNumber.isBlank()) {
-                System.out.println("Tracking number must not be empty.");
+                System.out.println(Messages.EMPTY_FIELD);
             } else {
                 validTrackingNumber = true;
             }
@@ -238,55 +266,54 @@ public class MenuOperations {
         Parcel parcel = manager.findParcel(trackingNumber);
 
         if (parcel == null) {
-            throw new IllegalArgumentException("Parcel not found!");
+            throw new IllegalArgumentException(Messages.PARCEL_NOT_FOUND);
         }
 
         if (parcel.getStatus() == ParcelStatus.DELIVERED) {
-            throw new IllegalArgumentException("Parcel already delivered!");
+            throw new IllegalArgumentException(Messages.PARCEL_ALREADY_DELIVERED);
         }
-        
+
         manager.changeDeliveryService(trackingNumber, selectDeliveryService());
-        System.out.printf("Delivery service changed! New fee: Php %.2f%n", parcel.calculateDeliveryFee());
+        System.out.printf(Messages.DELIVERY_SERVICE_CHANGED, parcel.calculateDeliveryFee());
     }
 
     public void markAsDelivered() {
         if (manager.getAllParcels().isEmpty()) {
-            System.out.println("No parcels available.");
+            System.out.println(Messages.NO_PARCELS);
             return;
         }
 
         String trackingNumber = "";
         boolean validTrackingNumber = false;
         while (!validTrackingNumber) {
-            System.out.print("Tracking Number: ");
+            System.out.print(Messages.TRACKING_NUMBER_PROMPT);
             trackingNumber = scanner.nextLine().strip();
             if (trackingNumber.isBlank()) {
-                System.out.println("Tracking number must not be empty.");
+                System.out.println(Messages.EMPTY_FIELD);
             } else {
                 validTrackingNumber = true;
             }
         }
         manager.markAsDelivered(trackingNumber);
-        System.out.println("Parcel delivered successfully!");
+        System.out.println(Messages.PARCEL_DELIVERED);
     }
 
     private DeliveryStrategy selectDeliveryService() {
-        System.out.println("\nSelect Delivery Service: ");
-        System.out.println("[1] Standard Delivery");
-        System.out.println("[2] Express Delivery");
-        System.out.println("[3] Same Day Delivery");
+
+        Messages.printDeliveryServiceMenu();
 
         String choice = "";
         boolean validChoice = false;
         while (!validChoice) {
-            System.out.print("Enter choice: ");
+            System.out.print(Messages.CHOICE_PROMPT);
+
             choice = scanner.nextLine().strip();
             if (choice.equals("1") || choice.equals("2") || choice.equals("3")) {
                 validChoice = true;
             } else if (choice.matches("0[0-9]+")) {
-                System.out.println("Enter your choice without leading zeros.");
+                System.out.println(Messages.INVALID_CHOICE);
             } else {
-                System.out.println("Invalid choice. Please select 1 to 3.");
+                System.out.println(Messages.INVALID_CHOICE);
             }
         }
 
@@ -294,8 +321,7 @@ public class MenuOperations {
             case "1" -> new StandardDelivery();
             case "2" -> new ExpressDelivery();
             case "3" -> new SameDayDelivery();
-            default -> throw new IllegalArgumentException("Invalid choice.");
+            default -> throw new IllegalArgumentException(Messages.INVALID_CHOICE);
         };
     }
-
 }

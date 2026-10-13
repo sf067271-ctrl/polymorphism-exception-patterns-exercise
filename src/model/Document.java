@@ -1,3 +1,8 @@
+package model;
+
+import common.Messages;
+import delivery.DeliveryStrategy;
+
 public class Document extends Parcel {
     private static final double MAX_WEIGHT = 0.5;
     private final double BASE_FEE = 50;
@@ -7,10 +12,10 @@ public class Document extends Parcel {
             int numberOfPages, DeliveryStrategy service) {
         super(trackingNumber, receiverName, actualWeight, service);
         if (actualWeight > MAX_WEIGHT) {
-            throw new IllegalArgumentException("Document weight must not exceed 0.5 kg.");
+            throw new IllegalArgumentException(Messages.weightLimit(MAX_WEIGHT));
         }
         if (numberOfPages < 1 || numberOfPages > 100) {
-            throw new IllegalArgumentException("Number of pages must be between 1 and 100.");
+            throw new IllegalArgumentException(Messages.INVALID_PAGES);
         }
         this.numberOfPages = numberOfPages;
         validateDeliveryService(service);

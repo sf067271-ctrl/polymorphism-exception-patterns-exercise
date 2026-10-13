@@ -1,3 +1,5 @@
+package delivery;
+
 public class SameDayDelivery implements DeliveryStrategy {
     private static final double MULTIPLIER = 2;
     private static final double EXTRA_FEE = 100;

@@ -1,3 +1,9 @@
+package model;
+
+import common.Messages;
+import delivery.DeliveryStrategy;
+import delivery.SameDayDelivery;
+
 public abstract class Parcel {
     private final String trackingNumber;
     private final String receiverName;
@@ -8,16 +14,16 @@ public abstract class Parcel {
     protected Parcel(String trackingNumber, String receiverName, double actualWeight,
             DeliveryStrategy deliveryService) {
         if (trackingNumber == null || !trackingNumber.matches("^ABC\\d{4}$")) {
-            throw new IllegalArgumentException("Tracking number must be ABC followed by exactly four digits.");
+            throw new IllegalArgumentException(Messages.INVALID_TRACKING_NUMBER);
         }
         if (receiverName == null || receiverName.isBlank()) {
-            throw new IllegalArgumentException("Receiver name must not be empty.");
+            throw new IllegalArgumentException(Messages.EMPTY_FIELD);
         }
         if (!Double.isFinite(actualWeight) || actualWeight <= 0) {
-            throw new IllegalArgumentException("Actual weight must be a finite number greater than zero.");
+            throw new IllegalArgumentException(Messages.INVALID_WEIGHT);
         }
         if (deliveryService == null) {
-            throw new IllegalArgumentException("Select a valid delivery service.");
+            throw new IllegalArgumentException(Messages.INVALID_DELIVERY_SERVICE);
         }
         this.trackingNumber = trackingNumber;
         this.receiverName = receiverName.strip();
@@ -35,7 +41,7 @@ public abstract class Parcel {
 
     public void changeDeliveryService(DeliveryStrategy service) {
         if (status == ParcelStatus.DELIVERED) {
-            throw new IllegalArgumentException("Parcel already delivered!");
+            throw new IllegalArgumentException(Messages.PARCEL_ALREADY_DELIVERED);
         }
         validateDeliveryService(service);
         deliveryService = service;
@@ -44,16 +50,16 @@ public abstract class Parcel {
     // Subclass dimensions must be initialized before checking chargeable weight.
     protected void validateDeliveryService(DeliveryStrategy service) {
         if (service == null) {
-            throw new IllegalArgumentException("Select a valid delivery service.");
+            throw new IllegalArgumentException(Messages.INVALID_DELIVERY_SERVICE);
         }
         if (service instanceof SameDayDelivery && calculateChargeableWeight() > 10) {
-            throw new IllegalArgumentException("Same Day delivery is only for parcels up to 10 kg!");
+            throw new IllegalArgumentException(Messages.SAME_DAY_WEIGHT_LIMIT);
         }
     }
 
     public void markAsDelivered() {
         if (status == ParcelStatus.DELIVERED) {
-            throw new IllegalArgumentException("Parcel was already delivered.");
+            throw new IllegalArgumentException(Messages.PARCEL_ALREADY_DELIVERED);
         }
         status = ParcelStatus.DELIVERED;
     }
@@ -63,4 +69,5 @@ public abstract class Parcel {
     public double getActualWeight() { return actualWeight; }
     public DeliveryStrategy getDeliveryService() { return deliveryService; }
     public ParcelStatus getStatus() { return status; }
+    
 }

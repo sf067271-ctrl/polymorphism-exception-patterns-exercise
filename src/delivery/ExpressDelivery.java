@@ -1,3 +1,5 @@
+package delivery;
+
 public class ExpressDelivery implements DeliveryStrategy {
     private static final double MULTIPLIER = 1.5;
 

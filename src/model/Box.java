@@ -1,3 +1,8 @@
+package model;
+
+import common.Messages;
+import delivery.DeliveryStrategy;
+
 public class Box extends Parcel {
     private static final double MAX_WEIGHT = 50;
     private final double RATE_PER_KG = 40;
@@ -10,10 +15,10 @@ public class Box extends Parcel {
             int length, int width, int height, DeliveryStrategy service) {
         super(trackingNumber, receiverName, actualWeight, service);
         if (actualWeight > MAX_WEIGHT) {
-            throw new IllegalArgumentException("Box weight must not exceed 50 kg.");
+            throw new IllegalArgumentException(Messages.weightLimit(MAX_WEIGHT));
         }
         if (length <= 0 || width <= 0 || height <= 0) {
-            throw new IllegalArgumentException("All dimensions must be greater than zero.");
+            throw new IllegalArgumentException(Messages.INVALID_DIMENSIONS);
         }
         this.length = length;
         this.width = width;
