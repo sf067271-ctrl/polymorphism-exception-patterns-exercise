@@ -28,6 +28,4 @@ public class Fragile extends Box {
 
     @Override
     public String getParcelType() { return "Fragile"; }
-
-    public String getHandlingNote() { return handlingNote; }
 }

@@ -10,7 +10,9 @@ public class Document extends Parcel {
 
     public Document(String trackingNumber, String receiverName, double actualWeight,
             int numberOfPages, DeliveryStrategy service) {
+
         super(trackingNumber, receiverName, actualWeight, service);
+        
         if (actualWeight > MAX_WEIGHT) {
             throw new IllegalArgumentException(Messages.weightLimit(MAX_WEIGHT));
         }
@@ -32,5 +34,5 @@ public class Document extends Parcel {
     @Override
     public String getParcelType() { return "Document"; }
 
-    public int getNumberOfPages() { return numberOfPages; }
+
 }
