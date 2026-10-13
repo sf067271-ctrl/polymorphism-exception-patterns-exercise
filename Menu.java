@@ -21,7 +21,14 @@ public class Menu {
                     break;
                 }
                 try {
-                    int choice = Integer.parseInt(scanner.nextLine().strip());
+                    String input = scanner.nextLine().strip();
+                    if (input.matches("0[0-9]+")) {
+                        throw new IllegalArgumentException("Enter your choice without leading zeros.");
+                    }
+                    int choice = Integer.parseInt(input);
+                    if (!input.matches("[1-5]")) {
+                        throw new IllegalArgumentException("Invalid choice. Please select 1 to 5.");
+                    }
                     switch (choice) {
                         case 1 -> operations.addParcel();
                         case 2 -> operations.viewAllParcels();

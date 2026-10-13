@@ -24,6 +24,8 @@ public class MenuOperations {
 
             if (type.equals("1") || type.equals("2") || type.equals("3")) {
                 validType = true;
+            } else if (type.matches("0[0-9]+")) {
+                System.out.println("Enter your choice without leading zeros.");
             } else {
                 System.out.println("Invalid choice. Please select 1 to 3.");
             }
@@ -281,6 +283,8 @@ public class MenuOperations {
             choice = scanner.nextLine().strip();
             if (choice.equals("1") || choice.equals("2") || choice.equals("3")) {
                 validChoice = true;
+            } else if (choice.matches("0[0-9]+")) {
+                System.out.println("Enter your choice without leading zeros.");
             } else {
                 System.out.println("Invalid choice. Please select 1 to 3.");
             }
