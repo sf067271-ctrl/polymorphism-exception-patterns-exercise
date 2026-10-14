@@ -6,7 +6,7 @@ public final class Messages {
     public static final String CHOICE_PROMPT = "Enter your choice: ";
     public static final String TRACKING_NUMBER_PROMPT = "Tracking Number (ABC0000): ";
     public static final String RECEIVER_NAME_PROMPT = "Receiver Name: ";
-    public static final String WEIGHT_PROMPT = "Actual Weight (kg): ";
+    public static final String WEIGHT_PROMPT = "Actual Weight ";
     public static final String PAGES_PROMPT = "Number of Pages (1-100): ";
     public static final String HANDLING_NOTE_PROMPT = "Handling Note: ";
 
@@ -22,6 +22,7 @@ public final class Messages {
     public static final String SAME_DAY_WEIGHT_LIMIT = "Same Day delivery is only for parcels up to 10 kg!";
     public static final String PARCEL_NOT_FOUND = "Parcel not found!";
     public static final String PARCEL_ALREADY_DELIVERED = "Parcel already delivered!";
+    public static final String PARCEL_WAS_ALREADY_DELIVERED = "Parcel was already delivered.";
 
     public static final String NO_PARCELS = "No parcels available.";
     public static final String PARCEL_ADDED = "Parcel added successfully! Delivery fee: Php %.2f%n";

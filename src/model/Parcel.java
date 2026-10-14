@@ -60,7 +60,7 @@ public abstract class Parcel {
 
     public void markAsDelivered() {
         if (status == ParcelStatus.DELIVERED) {
-            throw new IllegalArgumentException(Messages.PARCEL_ALREADY_DELIVERED);
+            throw new IllegalArgumentException(Messages.PARCEL_WAS_ALREADY_DELIVERED);
         }
         status = ParcelStatus.DELIVERED;
     }

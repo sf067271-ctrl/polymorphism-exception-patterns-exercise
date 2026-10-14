@@ -99,7 +99,8 @@ public class MenuOperations {
         double weight = 0;
         boolean validWeight = false;
         while (!validWeight) {
-            System.out.print(Messages.WEIGHT_PROMPT);
+
+            System.out.print(Messages.WEIGHT_PROMPT + "(0-" + maxWeight + " kg): ");
             try {
                 weight = Double.parseDouble(scanner.nextLine().trim());
                 if (!Double.isFinite(weight) || weight <= 0 || weight > maxWeight) {
@@ -210,7 +211,7 @@ public class MenuOperations {
         int trackingWidth = "TRACKING".length();
         int typeWidth = "TYPE".length();
         int receiverWidth = "RECEIVER".length();
-        int weightWidth = "CHARGABLE WEIGHT".length();
+        int weightWidth = "CHARGEABLE WEIGHT".length();
         int serviceWidth = "SERVICE".length();
         int feeWidth = "FEE (Php)".length();
         int statusWidth = "STATUS".length();
@@ -232,7 +233,7 @@ public class MenuOperations {
                 + "s  %-" + statusWidth + "s%n";
 
         System.out.println();
-        System.out.printf(format, "TRACKING", "TYPE", "RECEIVER", "CHARGABLE WEIGHT", "SERVICE", "FEE (Php)", "STATUS");
+        System.out.printf(format, "TRACKING", "TYPE", "RECEIVER", "CHARGEABLE WEIGHT", "SERVICE", "FEE (Php)", "STATUS");
         for (Parcel parcel : parcels) {
             String status = parcel.getStatus() == ParcelStatus.PENDING ? "Pending" : "Delivered";
             System.out.printf(format, parcel.getTrackingNumber(), parcel.getParcelType(),
@@ -243,12 +244,6 @@ public class MenuOperations {
     }
 
     public void changeDeliveryService() {
-
-        if (manager.getAllParcels().isEmpty()) {
-            System.out.println(Messages.NO_PARCELS);
-            return;
-        }
-
         String trackingNumber = "";
         boolean validTrackingNumber = false;
 
@@ -278,11 +273,6 @@ public class MenuOperations {
     }
 
     public void markAsDelivered() {
-        if (manager.getAllParcels().isEmpty()) {
-            System.out.println(Messages.NO_PARCELS);
-            return;
-        }
-
         String trackingNumber = "";
         boolean validTrackingNumber = false;
         while (!validTrackingNumber) {
