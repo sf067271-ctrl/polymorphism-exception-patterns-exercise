@@ -18,7 +18,7 @@ public class Fragile extends Box {
         if (handlingNote == null || handlingNote.isBlank()) {
             throw new IllegalArgumentException(Messages.EMPTY_FIELD);
         }
-        this.handlingNote = handlingNote.strip();
+        this.handlingNote = handlingNote.trim();
     }
 
     public static double getMaxWeight() { return MAX_WEIGHT; }

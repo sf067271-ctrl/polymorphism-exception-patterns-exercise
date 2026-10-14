@@ -26,13 +26,15 @@ public abstract class Parcel {
             throw new IllegalArgumentException(Messages.INVALID_DELIVERY_SERVICE);
         }
         this.trackingNumber = trackingNumber;
-        this.receiverName = receiverName.strip();
+        this.receiverName = receiverName.trim();
         this.actualWeight = actualWeight;
         this.deliveryService = deliveryService;
     }
 
     public abstract double calculateChargeableWeight();
+
     public abstract double calculateBaseFee();
+
     public abstract String getParcelType();
 
     public double calculateDeliveryFee() {
@@ -47,7 +49,6 @@ public abstract class Parcel {
         deliveryService = service;
     }
 
-    // Subclass dimensions must be initialized before checking chargeable weight.
     protected void validateDeliveryService(DeliveryStrategy service) {
         if (service == null) {
             throw new IllegalArgumentException(Messages.INVALID_DELIVERY_SERVICE);
@@ -64,10 +65,24 @@ public abstract class Parcel {
         status = ParcelStatus.DELIVERED;
     }
 
-    public String getTrackingNumber() { return trackingNumber; }
-    public String getReceiverName() { return receiverName; }
-    public double getActualWeight() { return actualWeight; }
-    public DeliveryStrategy getDeliveryService() { return deliveryService; }
-    public ParcelStatus getStatus() { return status; }
-    
+    public String getTrackingNumber() {
+        return trackingNumber;
+    }
+
+    public String getReceiverName() {
+        return receiverName;
+    }
+
+    public double getActualWeight() {
+        return actualWeight;
+    }
+
+    public DeliveryStrategy getDeliveryService() {
+        return deliveryService;
+    }
+
+    public ParcelStatus getStatus() {
+        return status;
+    }
+
 }

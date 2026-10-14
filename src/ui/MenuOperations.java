@@ -31,7 +31,7 @@ public class MenuOperations {
 
         while (!validType) {
             System.out.print(Messages.CHOICE_PROMPT);
-            type = scanner.nextLine().strip();
+            type = scanner.nextLine().trim();
 
             if (type.equals("1") || type.equals("2") || type.equals("3")) {
                 validType = true;
@@ -59,7 +59,7 @@ public class MenuOperations {
 
         while (!validTrackingNumber) {
             System.out.print(Messages.TRACKING_NUMBER_PROMPT);
-            trackingNumber = scanner.nextLine().strip();
+            trackingNumber = scanner.nextLine().trim();
 
             try {
                 if (!trackingNumber.matches("^ABC\\d{4}$")) {
@@ -80,7 +80,7 @@ public class MenuOperations {
 
         while (!validReceiver) {
             System.out.print(Messages.RECEIVER_NAME_PROMPT);
-            receiverName = scanner.nextLine().strip();
+            receiverName = scanner.nextLine().trim();
             if (receiverName.isBlank()) {
                 System.out.println(Messages.EMPTY_FIELD);
             } else {
@@ -101,7 +101,7 @@ public class MenuOperations {
         while (!validWeight) {
             System.out.print(Messages.WEIGHT_PROMPT);
             try {
-                weight = Double.parseDouble(scanner.nextLine().strip());
+                weight = Double.parseDouble(scanner.nextLine().trim());
                 if (!Double.isFinite(weight) || weight <= 0 || weight > maxWeight) {
                     System.out
                             .println(Messages.weightLimit(maxWeight));
@@ -124,7 +124,7 @@ public class MenuOperations {
                 while (!validPages) {
                     System.out.print(Messages.PAGES_PROMPT);
                     try {
-                        pages = Integer.parseInt(scanner.nextLine().strip());
+                        pages = Integer.parseInt(scanner.nextLine().trim());
                         if (pages < 1 || pages > 100) {
                             System.out.println(Messages.INVALID_PAGES);
                         } else {
@@ -146,7 +146,7 @@ public class MenuOperations {
                     while (!validDimension) {
                         System.out.print(Messages.dimensionPrompt(dimensionNames[i]));
                         try {
-                            dimensions[i] = Integer.parseInt(scanner.nextLine().strip());
+                            dimensions[i] = Integer.parseInt(scanner.nextLine().trim());
                             if (dimensions[i] <= 0) {
                                 System.out.println(Messages.INVALID_DIMENSIONS);
                             } else {
@@ -169,7 +169,7 @@ public class MenuOperations {
                         boolean validNote = false;
                         while (!validNote) {
                             System.out.print(Messages.HANDLING_NOTE_PROMPT);
-                            note = scanner.nextLine().strip();
+                            note = scanner.nextLine().trim();
                             if (note.isBlank()) {
                                 System.out.println(Messages.EMPTY_FIELD);
                             } else {
@@ -238,7 +238,7 @@ public class MenuOperations {
             System.out.printf(format, parcel.getTrackingNumber(), parcel.getParcelType(),
                     parcel.getReceiverName(), String.format("%.2fkg", parcel.calculateChargeableWeight()),
                     parcel.getDeliveryService().getServiceName(),
-                    String.format("%.2f", parcel.calculateDeliveryFee()), status);
+                    String.format("P%.2f", parcel.calculateDeliveryFee()), status);
         }
     }
 
@@ -254,7 +254,7 @@ public class MenuOperations {
 
         while (!validTrackingNumber) {
             System.out.print(Messages.TRACKING_NUMBER_PROMPT);
-            trackingNumber = scanner.nextLine().strip();
+            trackingNumber = scanner.nextLine().trim();
 
             if (trackingNumber.isBlank()) {
                 System.out.println(Messages.EMPTY_FIELD);
@@ -287,7 +287,7 @@ public class MenuOperations {
         boolean validTrackingNumber = false;
         while (!validTrackingNumber) {
             System.out.print(Messages.TRACKING_NUMBER_PROMPT);
-            trackingNumber = scanner.nextLine().strip();
+            trackingNumber = scanner.nextLine().trim();
             if (trackingNumber.isBlank()) {
                 System.out.println(Messages.EMPTY_FIELD);
             } else {
@@ -307,7 +307,7 @@ public class MenuOperations {
         while (!validChoice) {
             System.out.print(Messages.CHOICE_PROMPT);
 
-            choice = scanner.nextLine().strip();
+            choice = scanner.nextLine().trim();
             if (choice.equals("1") || choice.equals("2") || choice.equals("3")) {
                 validChoice = true;
             } else if (choice.matches("0[0-9]+")) {
