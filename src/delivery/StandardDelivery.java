@@ -5,5 +5,5 @@ public class StandardDelivery implements DeliveryStrategy {
     public double calculateDeliveryFee(double baseFee) { return baseFee; }
 
     @Override
-    public String getServiceName() { return "Standard"; }
+    public String getServiceName() { return "Standard Delivery"; }
 }

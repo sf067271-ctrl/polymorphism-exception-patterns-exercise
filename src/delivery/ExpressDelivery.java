@@ -7,5 +7,5 @@ public class ExpressDelivery implements DeliveryStrategy {
     public double calculateDeliveryFee(double baseFee) { return baseFee * MULTIPLIER; }
 
     @Override
-    public String getServiceName() { return "Express"; }
+    public String getServiceName() { return "Express Delivery"; }
 }

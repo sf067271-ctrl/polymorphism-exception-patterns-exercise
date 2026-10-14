@@ -8,5 +8,5 @@ public class SameDayDelivery implements DeliveryStrategy {
     public double calculateDeliveryFee(double baseFee) { return baseFee * MULTIPLIER + EXTRA_FEE; }
 
     @Override
-    public String getServiceName() { return "Same Day"; }
+    public String getServiceName() { return "Same Day Delivery"; }
 }
