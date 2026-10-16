@@ -102,7 +102,7 @@ public class MenuOperations {
         boolean validWeight = false;
         while (!validWeight) {
 
-            System.out.print(Messages.WEIGHT_PROMPT + "(0.0-" + maxWeight + " kg): ");
+            System.out.print(Messages.WEIGHT_PROMPT + "(>0-" + maxWeight + " kg): ");
             try {
                 weight = Double.parseDouble(scanner.nextLine().trim());
                 if (!ParcelValidator.isValidWeight(weight, maxWeight)) {
@@ -224,7 +224,7 @@ public class MenuOperations {
             trackingWidth = Math.max(trackingWidth, parcel.getTrackingNumber().length());
             typeWidth = Math.max(typeWidth, parcel.getParcelType().length());
             receiverWidth = Math.max(receiverWidth, parcel.getReceiverName().length());
-            weightWidth = Math.max(weightWidth, String.format("%.2f", parcel.calculateChargeableWeight()).length());
+            weightWidth = Math.max(weightWidth, (parcel.calculateChargeableWeight() + "kg").length());
             serviceWidth = Math.max(serviceWidth, parcel.getDeliveryService().getServiceName().length());
             feeWidth = Math.max(feeWidth, String.format("%.2f", parcel.calculateDeliveryFee()).length());
             statusWidth = Math.max(statusWidth, status.length());
@@ -235,11 +235,12 @@ public class MenuOperations {
                 + "s  %-" + statusWidth + "s%n";
 
         System.out.println();
-        System.out.printf(format, "TRACKING", "TYPE", "RECEIVER", "CHARGEABLE WEIGHT", "SERVICE", "FEE (Php)", "STATUS");
+        System.out.printf(format, "TRACKING", "TYPE", "RECEIVER", "CHARGEABLE WEIGHT", "SERVICE", "FEE (Php)",
+                "STATUS");
         for (Parcel parcel : parcels) {
             String status = parcel.getStatus() == ParcelStatus.PENDING ? "Pending" : "Delivered";
             System.out.printf(format, parcel.getTrackingNumber(), parcel.getParcelType(),
-                    parcel.getReceiverName(), String.format("%.2fkg", parcel.calculateChargeableWeight()),
+                    parcel.getReceiverName(), parcel.calculateChargeableWeight() + "kg",
                     parcel.getDeliveryService().getServiceName(),
                     String.format("P%.2f", parcel.calculateDeliveryFee()), status);
         }
