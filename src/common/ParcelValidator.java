@@ -20,6 +20,6 @@ public final class ParcelValidator {
     }
 
     public static boolean isValidDimension(int dimension) {
-        return dimension > 0;
+        return dimension > 0 && dimension <= 100;
     }
 }

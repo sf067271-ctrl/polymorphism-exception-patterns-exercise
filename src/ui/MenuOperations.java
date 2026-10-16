@@ -102,7 +102,7 @@ public class MenuOperations {
         boolean validWeight = false;
         while (!validWeight) {
 
-            System.out.print(Messages.WEIGHT_PROMPT + "(0-" + maxWeight + " kg): ");
+            System.out.print(Messages.WEIGHT_PROMPT + "(0.0-" + maxWeight + " kg): ");
             try {
                 weight = Double.parseDouble(scanner.nextLine().trim());
                 if (!ParcelValidator.isValidWeight(weight, maxWeight)) {
@@ -117,13 +117,12 @@ public class MenuOperations {
         }
         Parcel parcel;
 
-        // Validate details with Standard first; store only after the user's service is
-        // valid.
         DeliveryStrategy standard = new StandardDelivery();
         switch (type) {
             case "1" -> {
                 int pages = 0;
                 boolean validPages = false;
+
                 while (!validPages) {
                     System.out.print(Messages.PAGES_PROMPT);
                     try {

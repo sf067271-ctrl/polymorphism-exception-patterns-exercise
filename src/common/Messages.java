@@ -1,7 +1,8 @@
 package common;
 
 public final class Messages {
-    private Messages() {}
+    private Messages() {
+    }
 
     public static final String CHOICE_PROMPT = "Enter your choice: ";
     public static final String TRACKING_NUMBER_PROMPT = "Tracking Number (ABC0000): ";
@@ -17,7 +18,7 @@ public final class Messages {
     public static final String INVALID_TRACKING_NUMBER = "Tracking number must be ABC followed by exactly four digits.";
     public static final String DUPLICATE_TRACKING_NUMBER = "Tracking number already exists!";
     public static final String INVALID_PAGES = "Number of pages must be between 1 and 100.";
-    public static final String INVALID_DIMENSIONS = "Dimensions must be greater than zero.";
+    public static final String INVALID_DIMENSIONS = "Dimensions must be greater than zero and at most 100 cm.";
     public static final String INVALID_DELIVERY_SERVICE = "Select a valid delivery service.";
     public static final String SAME_DAY_WEIGHT_LIMIT = "Same Day delivery is only for parcels up to 10 kg!";
     public static final String PARCEL_NOT_FOUND = "Parcel not found!";
