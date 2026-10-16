@@ -242,7 +242,7 @@ public class MenuOperations {
             System.out.printf(format, parcel.getTrackingNumber(), parcel.getParcelType(),
                     parcel.getReceiverName(), parcel.calculateChargeableWeight() + "kg",
                     parcel.getDeliveryService().getServiceName(),
-                    String.format("P%.2f", parcel.calculateDeliveryFee()), status);
+                    String.format("P%,.2f", parcel.calculateDeliveryFee()), status);
         }
     }
 

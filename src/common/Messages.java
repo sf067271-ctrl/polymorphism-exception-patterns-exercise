@@ -26,8 +26,8 @@ public final class Messages {
     public static final String PARCEL_WAS_ALREADY_DELIVERED = "Parcel was already delivered.";
 
     public static final String NO_PARCELS = "No parcels available.";
-    public static final String PARCEL_ADDED = "Parcel added successfully! Delivery fee: P %.2f%n";
-    public static final String DELIVERY_SERVICE_CHANGED = "Delivery service changed! New fee: P %.2f%n";
+    public static final String PARCEL_ADDED = "Parcel added successfully! Delivery fee: P%,.2f%n";
+    public static final String DELIVERY_SERVICE_CHANGED = "Delivery service changed! New fee: P%,.2f%n";
     public static final String PARCEL_DELIVERED = "Parcel delivered successfully!";
     public static final String INPUT_ENDED = "Input ended.";
     public static final String GOODBYE = "Thank you for using the Parcel Delivery System!";
@@ -39,7 +39,7 @@ public final class Messages {
     }
 
     public static String dimensionPrompt(String dimensionName) {
-        return dimensionName + " (cm): ";
+        return dimensionName + " (1-100 cm): ";
     }
 
     public static void printMainMenu() {
