@@ -1,6 +1,8 @@
 package model;
 
 import common.Messages;
+import common.ParcelValidator;
+import common.TrackingNumberValidator;
 import delivery.DeliveryStrategy;
 import delivery.SameDayDelivery;
 
@@ -13,13 +15,13 @@ public abstract class Parcel {
 
     protected Parcel(String trackingNumber, String receiverName, double actualWeight,
             DeliveryStrategy deliveryService) {
-        if (trackingNumber == null || !trackingNumber.matches("^ABC\\d{4}$")) {
+        if (!TrackingNumberValidator.isValid(trackingNumber)) {
             throw new IllegalArgumentException(Messages.INVALID_TRACKING_NUMBER);
         }
-        if (receiverName == null || receiverName.isBlank()) {
+        if (!ParcelValidator.hasRequiredText(receiverName)) {
             throw new IllegalArgumentException(Messages.EMPTY_FIELD);
         }
-        if (!Double.isFinite(actualWeight) || actualWeight <= 0) {
+        if (!ParcelValidator.isValidWeight(actualWeight)) {
             throw new IllegalArgumentException(Messages.INVALID_WEIGHT);
         }
         if (deliveryService == null) {

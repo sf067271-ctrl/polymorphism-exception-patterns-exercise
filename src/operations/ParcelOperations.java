@@ -32,7 +32,7 @@ public class ParcelOperations {
 
     public Parcel findParcel(String trackingNumber) {
         for (Parcel parcel : parcels) {
-            if (parcel.getTrackingNumber().equals(trackingNumber)) {
+            if (parcel.getTrackingNumber().equalsIgnoreCase(trackingNumber)) {
                 return parcel;
             }
         }

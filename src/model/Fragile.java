@@ -1,6 +1,7 @@
 package model;
 
 import common.Messages;
+import common.ParcelValidator;
 import delivery.DeliveryStrategy;
 
 public class Fragile extends Box {
@@ -12,10 +13,10 @@ public class Fragile extends Box {
             int length, int width, int height, String handlingNote,
             DeliveryStrategy service) {
         super(trackingNumber, receiverName, actualWeight, length, width, height, service);
-        if (actualWeight > MAX_WEIGHT) {
+        if (!ParcelValidator.isValidWeight(actualWeight, MAX_WEIGHT)) {
             throw new IllegalArgumentException(Messages.weightLimit(MAX_WEIGHT));
         }
-        if (handlingNote == null || handlingNote.isBlank()) {
+        if (!ParcelValidator.hasRequiredText(handlingNote)) {
             throw new IllegalArgumentException(Messages.EMPTY_FIELD);
         }
         this.handlingNote = handlingNote.trim();

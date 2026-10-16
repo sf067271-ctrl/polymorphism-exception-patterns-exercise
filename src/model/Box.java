@@ -1,6 +1,7 @@
 package model;
 
 import common.Messages;
+import common.ParcelValidator;
 import delivery.DeliveryStrategy;
 
 public class Box extends Parcel {
@@ -14,10 +15,12 @@ public class Box extends Parcel {
     public Box(String trackingNumber, String receiverName, double actualWeight,
             int length, int width, int height, DeliveryStrategy service) {
         super(trackingNumber, receiverName, actualWeight, service);
-        if (actualWeight > MAX_WEIGHT) {
+        if (!ParcelValidator.isValidWeight(actualWeight, MAX_WEIGHT)) {
             throw new IllegalArgumentException(Messages.weightLimit(MAX_WEIGHT));
         }
-        if (length <= 0 || width <= 0 || height <= 0) {
+        if (!ParcelValidator.isValidDimension(length)
+                || !ParcelValidator.isValidDimension(width)
+                || !ParcelValidator.isValidDimension(height)) {
             throw new IllegalArgumentException(Messages.INVALID_DIMENSIONS);
         }
         this.length = length;

@@ -1,6 +1,8 @@
 package ui;
 
 import common.Messages;
+import common.ParcelValidator;
+import common.TrackingNumberValidator;
 import delivery.DeliveryStrategy;
 import delivery.ExpressDelivery;
 import delivery.SameDayDelivery;
@@ -59,10 +61,10 @@ public class MenuOperations {
 
         while (!validTrackingNumber) {
             System.out.print(Messages.TRACKING_NUMBER_PROMPT);
-            trackingNumber = scanner.nextLine().trim();
+            trackingNumber = scanner.nextLine().toUpperCase().trim();
 
             try {
-                if (!trackingNumber.matches("^ABC\\d{4}$")) {
+                if (!TrackingNumberValidator.isValid(trackingNumber)) {
                     throw new IllegalArgumentException(Messages.INVALID_TRACKING_NUMBER);
                 }
 
@@ -81,7 +83,7 @@ public class MenuOperations {
         while (!validReceiver) {
             System.out.print(Messages.RECEIVER_NAME_PROMPT);
             receiverName = scanner.nextLine().trim();
-            if (receiverName.isBlank()) {
+            if (!ParcelValidator.hasRequiredText(receiverName)) {
                 System.out.println(Messages.EMPTY_FIELD);
             } else {
                 validReceiver = true;
@@ -103,7 +105,7 @@ public class MenuOperations {
             System.out.print(Messages.WEIGHT_PROMPT + "(0-" + maxWeight + " kg): ");
             try {
                 weight = Double.parseDouble(scanner.nextLine().trim());
-                if (!Double.isFinite(weight) || weight <= 0 || weight > maxWeight) {
+                if (!ParcelValidator.isValidWeight(weight, maxWeight)) {
                     System.out
                             .println(Messages.weightLimit(maxWeight));
                 } else {
@@ -126,7 +128,7 @@ public class MenuOperations {
                     System.out.print(Messages.PAGES_PROMPT);
                     try {
                         pages = Integer.parseInt(scanner.nextLine().trim());
-                        if (pages < 1 || pages > 100) {
+                        if (!ParcelValidator.isValidPageCount(pages)) {
                             System.out.println(Messages.INVALID_PAGES);
                         } else {
                             validPages = true;
@@ -148,7 +150,7 @@ public class MenuOperations {
                         System.out.print(Messages.dimensionPrompt(dimensionNames[i]));
                         try {
                             dimensions[i] = Integer.parseInt(scanner.nextLine().trim());
-                            if (dimensions[i] <= 0) {
+                            if (!ParcelValidator.isValidDimension(dimensions[i])) {
                                 System.out.println(Messages.INVALID_DIMENSIONS);
                             } else {
                                 validDimension = true;
@@ -171,7 +173,7 @@ public class MenuOperations {
                         while (!validNote) {
                             System.out.print(Messages.HANDLING_NOTE_PROMPT);
                             note = scanner.nextLine().trim();
-                            if (note.isBlank()) {
+                            if (!ParcelValidator.hasRequiredText(note)) {
                                 System.out.println(Messages.EMPTY_FIELD);
                             } else {
                                 validNote = true;
@@ -196,6 +198,7 @@ public class MenuOperations {
                 System.out.println(e.getMessage());
             }
         }
+
         manager.addParcel(parcel);
         System.out.printf(Messages.PARCEL_ADDED, parcel.calculateDeliveryFee());
     }
@@ -251,7 +254,7 @@ public class MenuOperations {
             System.out.print(Messages.TRACKING_NUMBER_PROMPT);
             trackingNumber = scanner.nextLine().trim();
 
-            if (trackingNumber.isBlank()) {
+            if (!ParcelValidator.hasRequiredText(trackingNumber)) {
                 System.out.println(Messages.EMPTY_FIELD);
             } else {
                 validTrackingNumber = true;
@@ -278,7 +281,7 @@ public class MenuOperations {
         while (!validTrackingNumber) {
             System.out.print(Messages.TRACKING_NUMBER_PROMPT);
             trackingNumber = scanner.nextLine().trim();
-            if (trackingNumber.isBlank()) {
+            if (!ParcelValidator.hasRequiredText(trackingNumber)) {
                 System.out.println(Messages.EMPTY_FIELD);
             } else {
                 validTrackingNumber = true;

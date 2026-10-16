@@ -1,6 +1,7 @@
 package model;
 
 import common.Messages;
+import common.ParcelValidator;
 import delivery.DeliveryStrategy;
 
 public class Document extends Parcel {
@@ -13,10 +14,10 @@ public class Document extends Parcel {
 
         super(trackingNumber, receiverName, actualWeight, service);
         
-        if (actualWeight > MAX_WEIGHT) {
+        if (!ParcelValidator.isValidWeight(actualWeight, MAX_WEIGHT)) {
             throw new IllegalArgumentException(Messages.weightLimit(MAX_WEIGHT));
         }
-        if (numberOfPages < 1 || numberOfPages > 100) {
+        if (!ParcelValidator.isValidPageCount(numberOfPages)) {
             throw new IllegalArgumentException(Messages.INVALID_PAGES);
         }
         this.numberOfPages = numberOfPages;
